@@ -1,0 +1,22 @@
+package br.com.farmacia.DAO;
+
+import java.sql.Connection;
+
+import com.mysql.jdbc.PreparedStatement;
+
+import br.com.farmacia.conexao.Conexao;
+import br.com.farmacia.domain.Fornecedores;
+
+public class fornecedoresDAO {
+	public void salvar(Fornecedores f) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO fornecedores");
+		sql.append("(descricao)");
+		sql.append("VALUES (?)");
+		
+		Connection conexao = Conexao.conectar();
+		PreparedStatement pstmt;
+		pstmt = conexao.prepareStatement(sql.toString());
+		
+	}
+}
