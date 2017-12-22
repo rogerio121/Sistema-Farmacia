@@ -521,3 +521,15 @@ dez 22, 2017 21:34:32.66 [Child 3844, Chrome_ChildThread] WARNING: pipe error: 1
 dez 22, 2017 21:34:33.19 
 dez 22, 2017 21:34:33.20 ###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
 dez 22, 2017 21:34:33.21 
+dez 22, 2017 21:47:59.06 Unable to read VR Path Registry from C:\Users\Rogerio\AppData\Local\openvr\openvrpaths.vrpath
+dez 22, 2017 21:47:59.07 [Parent 1684, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+dez 22, 2017 21:47:59.08 
+dez 22, 2017 21:47:59.09 ###!!! [Child][MessageChannel] Error: (msgtype=0x42000F,name=PHttpChannel::Msg___delete__) Channel closing: too late to send/recv, messages will be lost
+dez 22, 2017 21:47:59.10 
+dez 22, 2017 21:47:59.11 Unable to read VR Path Registry from C:\Users\Rogerio\AppData\Local\openvr\openvrpaths.vrpath
+dez 22, 2017 21:47:59.12 [Child 9024, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+dez 22, 2017 21:47:59.13 
+dez 22, 2017 21:47:59.14 ###!!! [Child][MessageChannel] Error: (msgtype=0x4B0027,name=PNecko::Msg_RemoveRequestContext) Channel closing: too late to send/recv, messages will be lost
+dez 22, 2017 21:47:59.15 
+dez 22, 2017 21:47:59.16 [Child 9024, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+dez 22, 2017 21:48:46.18 [Parent 1684, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
