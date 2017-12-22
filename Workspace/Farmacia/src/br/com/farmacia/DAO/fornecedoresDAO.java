@@ -50,9 +50,9 @@ public class fornecedoresDAO {
 		sql.append("WHERE codigo = ?");
 
 		Connection conexao = Conexao.conectar();
-		
+
 		PreparedStatement pstmt = conexao.prepareStatement(sql.toString());
-		
+
 		pstmt.setString(1, f.getDescricao());
 		pstmt.setLong(2, f.getCodigo());
 		pstmt.executeUpdate();
@@ -144,25 +144,4 @@ public class fornecedoresDAO {
 		return listaFornecedores;
 	}
 
-	public static void main(String[] args) {
-		
-		Fornecedores f4 = new Fornecedores();
-		
-		f4.setCodigo(4);
-		
-		fornecedoresDAO f = new fornecedoresDAO();
-		
-		try {
-			ArrayList<Fornecedores> forn = f.listar();
-			
-			for (Fornecedores fl : forn) {
-				System.out.println("foi "+fl.getDescricao());
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("erro ao buscar: "+e);
-		}
-		
-	}
 }

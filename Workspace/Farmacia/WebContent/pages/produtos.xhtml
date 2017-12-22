@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/modeloSistema.xhtml">
+	<ui:define name="menu">
+		<ui:include src="/includes/menu.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="frmProdutos">
+			<!-- Tabela -->
+			<p:dataTable id="tbProdutos" widgetVar="tebelaProdutos"
+				emptyMessage="Nenhum registro encontrado"
+				value="#{MBProdutos.itens}" var="item"
+				filteredValue="#{MBProdutos.itensFiltrados}" paginator="true"
+				rows="10">
+
+				<f:facet name="header">Lista de Produtos</f:facet>
+				<p:column headerText="Codigo" sortBy="#{item.codigo}"
+					filterBy="#{item.codigo}">
+					<h:outputText value="#{item.codigo}" />
+				</p:column>
+
+				<p:column headerText="Descricao" sortBy="#{item.descricao}"
+					filterBy="#{item.descricao}">
+					<h:outputText value="#{item.descricao}" />
+				</p:column>
+
+				<p:column headerText="Preço" sortBy="#{item.preco}"
+					filterBy="#{item.preco}">
+					<h:outputText value="#{item.preco}" />
+				</p:column>
+
+				<p:column headerText="Quantidae" sortBy="#{item.quantidade}"
+					filterBy="#{item.quantidade}">
+					<h:outputText value="#{item.quantidade}" />
+				</p:column>
+
+				<p:column headerText="Fornecedor"
+					sortBy="#{item.fornecedores.descricao}"
+					filterBy="#{item.fornecedores.descricao}">
+					<h:outputText value="#{item.fornecedores.descricao}" />
+				</p:column>
+
+				<p:column headerText="Opções">
+					<!-- Excluir -->
+					<p:commandButton icon="ui-icon-trash"
+						oncomplete="PF('dlgProExcluir').show();"
+						update=":frmProExcluir:pnProExcluir">
+						<f:setPropertyActionListener value="#{item}" target="#{MBProdutos.produto}"></f:setPropertyActionListener>
+					</p:commandButton>
+
+					<!-- Editar -->
+					<p:commandButton icon="ui-icon-pencil"
+						oncomplete="PF('dlgProEditar').show();"
+						update=":frmProEditar:pnProEditar">
+						<f:setPropertyActionListener value="#{item}" target="#{MBProdutos.produto}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+
+				<!-- Em onclick passo o PF(Nome da variavel).show para abiri a caixa de dialogo -->
+				<f:facet name="footer">
+					<p:commandButton value="Novo" oncomplete="PF('dlgProNovo').show()"
+						actionListener="#{MBProdutos.instanciarProduto}"
+						update=":frmProdutoNovo:pnPorNovo :msgGlobal" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+
+		<p:dialog widgetVar="dlgProNovo" closable="false" draggable="false"
+			resizable="false" header="Cadastrar Produtos" modal="true"
+			appendTo="@(body)">
+
+			<!-- Novo -->
+			<h:form id="frmProdutoNovo">
+				<h:panelGrid columns="2" id="pnPorNovo">
+					<p:outputLabel value="Descrição" />
+					<h:inputText size="30" maxlength="50"
+						value="#{MBProdutos.produto.descricao}" />
+					<p:outputLabel value="Preço" />
+					<h:inputText size="15" maxlength="50"
+						value="#{MBProdutos.produto.preco}" />
+					<p:outputLabel value="Quantidade" />
+					<h:inputText size="15" maxlength="50"
+						value="#{MBProdutos.produto.quantidade}" />
+					<p:outputLabel value="Fornecedor" />
+
+					<p:selectOneMenu value="#{MBProdutos.produto.fornecedores.codigo}"
+						filter="true">
+
+						<f:selectItems value="#{MBProdutos.comboFornecedores}" var="item"
+							itemValue="#{item.codigo}" itemLabel="#{item.descricao}">
+
+						</f:selectItems>
+					</p:selectOneMenu>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar" actionListener="#{MBProdutos.novo}"
+						onclick="PF('dlgProNovo').hide(); PF('tebelaProdutos').clearFilters();"
+						update=":frmProdutos:tbProdutos :msgGlobal" />
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgProNovo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<!-- Excluir -->
+		<p:dialog widgetVar="dlgProExcluir" closable="false" draggable="false"
+			resizable="false" header="Excluir Produto" modal="true"
+			appendTo="@(body)">
+
+			<h:form id="frmProExcluir">
+				<h:panelGrid id="pnProExcluir" columns="2">
+					<h:outputText value="Código: " />
+					<h:outputText value="#{MBProdutos.produto.codigo}" />
+
+					<h:outputText value="Descrição: " />
+					<h:outputText value="#{MBProdutos.produto.descricao}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Excluir"
+						actionListener="#{MBProdutos.excluir}"
+						oncomplete="PF('dlgProExcluir').hide(); PF('tebelaProdutos').clearFilters();"
+						update=":frmProdutos:tbProdutos :msgGlobal" />
+					<p:commandButton value="Cancelar"
+						oncomplete="PF('dlgProExcluir').hide();" />
+				</h:panelGrid>
+			</h:form>
+
+		</p:dialog>
+
+		<!-- Editar -->
+		<p:dialog widgetVar="dlgProEditar" closable="false" draggable="false"
+			resizable="false" header="Editar Produto" modal="true"
+			appendTo="@(body)">
+
+			<h:form id="frmProEditar">
+				<h:panelGrid id="pnProEditar" columns="2">
+					<h:outputText value="Código: " />
+					<h:outputText value="#{MBProdutos.produto.codigo}" />
+
+					<h:outputText value="Descrição: " />
+					<h:inputText value="#{MBProdutos.produto.descricao}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Editar"
+						actionListener="#{MBProdutos.editar}"
+						oncomplete="PF('dlgProEditar').hide(); PF('tebelaProdutos').clearFilters();"
+						update=":frmProdutos:tbProdutos :msgGlobal" />
+					<p:commandButton value="Cancelar"
+						oncomplete="PF('dlgProEditar').hide();" />
+				</h:panelGrid>
+			</h:form>
+
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>
