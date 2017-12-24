@@ -5,6 +5,10 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="{MBProdutos.produtos.codigo"/>
+			<item value=":frmPronecedores:tbPronecedores"/>
+			<item value="frmProdutos:tbProdutos"/>
+			<item value="novo"/>
 			<item value="frmProdutoNovo"/>
 			<item value="webapp"/>
 			<item value="frmForEditar:pnforEditar"/>

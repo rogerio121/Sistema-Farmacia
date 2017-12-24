@@ -12,9 +12,9 @@
 <fullyQualifiedTypeName name="javax.faces.context.FacesContext"/>
 <fullyQualifiedTypeName name="br.com.farmacia.util.JSFUtil"/>
 <fullyQualifiedTypeName name="br.com.farmacia.ben.ProdutoBean"/>
-<fullyQualifiedTypeName name="br.com.farmacia.DAO.ProdutoDAO"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="br.com.farmacia.domain.Produtos"/>
 <fullyQualifiedTypeName name="br.com.farmacia.DAO.fornecedoresDAO"/>
 <fullyQualifiedTypeName name="br.com.farmacia.domain.Fornecedores"/>
+<fullyQualifiedTypeName name="br.com.farmacia.DAO.ProdutoDAO"/>
 </qualifiedTypeNameHistroy>
