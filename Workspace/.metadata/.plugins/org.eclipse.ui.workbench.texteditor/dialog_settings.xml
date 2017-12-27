@@ -16,4 +16,17 @@
 		<list key="replacehistory">
 		</list>
 	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="Cancelar" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="cancelar"/>
+			<item value="#{item}"/>
+			<item value="dlgProExcluir"/>
+		</list>
+		<list key="replacehistory">
+		</list>
+	</section>
 </section>

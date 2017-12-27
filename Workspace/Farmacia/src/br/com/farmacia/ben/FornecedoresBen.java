@@ -60,6 +60,7 @@ public class FornecedoresBen {
 			e.printStackTrace();
 		}
 	}
+	
 	public void instanciarFornecedo(){
 		fornecedor = new Fornecedores();
 	}

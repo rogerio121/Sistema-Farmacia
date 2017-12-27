@@ -51,21 +51,22 @@
 					<p:commandButton icon="ui-icon-trash"
 						oncomplete="PF('dlgProExcluir').show();"
 						update=":frmProExcluir:pnProExcluir">
-						<f:setPropertyActionListener value="#{item}" target="#{MBProdutos.produto}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{item}" target="#{MBProdutos.produtos}"></f:setPropertyActionListener>
 					</p:commandButton>
 
 					<!-- Editar -->
 					<p:commandButton icon="ui-icon-pencil"
 						oncomplete="PF('dlgProEditar').show();"
-						update=":frmProEditar:pnProEditar">
-						<f:setPropertyActionListener value="#{item}" target="#{MBProdutos.produto}"></f:setPropertyActionListener>
+						update=":frmProEditar:pnProEditar"
+						actionListener="#{MBProdutos.prepararEditar}">
+						<f:setPropertyActionListener value="#{item}" target="#{MBProdutos.produtos}"></f:setPropertyActionListener>
 					</p:commandButton>
 				</p:column>
 
 				<!-- Em onclick passo o PF(Nome da variavel).show para abiri a caixa de dialogo -->
 				<f:facet name="footer">
 					<p:commandButton value="Novo" oncomplete="PF('dlgProNovo').show()"
-						actionListener="#{MBProdutos.instanciarProduto}"
+						actionListener="#{MBProdutos.prepararNovo}"
 						update=":frmProdutoNovo:pnPorNovo :msgGlobal" />
 				</f:facet>
 			</p:dataTable>
@@ -78,18 +79,18 @@
 			<!-- Novo -->
 			<h:form id="frmProdutoNovo">
 				<h:panelGrid columns="2" id="pnPorNovo">
-					<p:outputLabel value="Descrição" />
+					<p:outputLabel value="Descrição" for="txtDecNovo"/>
 					<h:inputText size="30" maxlength="50"
-						value="#{MBProdutos.produto.descricao}" />
-					<p:outputLabel value="Preço" />
+						value="#{MBProdutos.produtos.descricao}" required="true" requiredMessage="Campo Descrição é obrigatório" id="txtDecNovo"/>
+					<p:outputLabel value="Preço" for="txtPrecoNovo"/>
 					<h:inputText size="15" maxlength="50"
-						value="#{MBProdutos.produto.preco}" />
-					<p:outputLabel value="Quantidade" />
+						value="#{MBProdutos.produtos.preco}" required="true" requiredMessage="Campo Preço é obrigatório" id="txtPrecoNovo"/>
+					<p:outputLabel value="Quantidade" for="txtQtNovo"/>
 					<h:inputText size="15" maxlength="50"
-						value="#{MBProdutos.produto.quantidade}" />
+						value="#{MBProdutos.produtos.quantidade}" required="true" requiredMessage="Campo Quantidae é obrigatório" id="txtQtNovo"/>
 					<p:outputLabel value="Fornecedor" />
 
-					<p:selectOneMenu value="#{MBProdutos.produto.fornecedores.codigo}"
+					<p:selectOneMenu value="#{MBProdutos.produtos.fornecedores.codigo}"
 						filter="true">
 
 						<f:selectItems value="#{MBProdutos.comboFornecedores}" var="item"
@@ -102,10 +103,10 @@
 
 				<h:panelGrid columns="2">
 					<p:commandButton value="Salvar" actionListener="#{MBProdutos.novo}"
-						onclick="PF('dlgProNovo').hide(); PF('tebelaProdutos').clearFilters();"
+						oncomplete="validarCampos(xhr, status, args, 'dlgProNovo', 'tbProdutos');"
 						update=":frmProdutos:tbProdutos :msgGlobal" />
 					<p:commandButton value="Cancelar"
-						onclick="PF('dlgProNovo').hide();" />
+						onclick="PF('dlgProNovo').hide();" process="@this"/>
 				</h:panelGrid>
 			</h:form>
 		</p:dialog>
@@ -118,10 +119,11 @@
 			<h:form id="frmProExcluir">
 				<h:panelGrid id="pnProExcluir" columns="2">
 					<h:outputText value="Código: " />
-					<h:outputText value="#{MBProdutos.produto.codigo}" />
+					<h:outputText value="#{MBProdutos.produtos.codigo}" />
 
 					<h:outputText value="Descrição: " />
-					<h:outputText value="#{MBProdutos.produto.descricao}" />
+					<h:outputText value="#{MBProdutos.produtos.descricao}"/>
+					
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
@@ -130,7 +132,7 @@
 						oncomplete="PF('dlgProExcluir').hide(); PF('tebelaProdutos').clearFilters();"
 						update=":frmProdutos:tbProdutos :msgGlobal" />
 					<p:commandButton value="Cancelar"
-						oncomplete="PF('dlgProExcluir').hide();" />
+						oncomplete="PF('dlgProExcluir').hide();" process="@this"/>
 				</h:panelGrid>
 			</h:form>
 
@@ -144,19 +146,35 @@
 			<h:form id="frmProEditar">
 				<h:panelGrid id="pnProEditar" columns="2">
 					<h:outputText value="Código: " />
-					<h:outputText value="#{MBProdutos.produto.codigo}" />
+					<h:outputText value="#{MBProdutos.produtos.codigo}"  for="txtDecEdit" />
 
 					<h:outputText value="Descrição: " />
-					<h:inputText value="#{MBProdutos.produto.descricao}" />
+					<h:inputText value="#{MBProdutos.produtos.descricao}" required="true" requiredMessage="Campo Descrição é obrigatório" id="txtDecEdit" />
+					
+					<h:outputText value="Preço: " for="txtPrecoEdit" />
+					<h:inputText value="#{MBProdutos.produtos.preco}" required="true" requiredMessage="Campo Preço é obrigatório" id="txtPrecoEdit"/>
+					
+					<h:outputText value="Quantidade: " for="txtQtEdit" />
+					<h:inputText value="#{MBProdutos.produtos.quantidade}" required="true" requiredMessage="Campo Quantidade é obrigatório" id="txtQtEdit"/>
+
+					<h:outputText value="Fornecedor " for="txtFornEdit" />
+					<p:selectOneMenu value="#{MBProdutos.produtos.fornecedores.codigo}"
+						filter="true" required="true" requiredMessage="Campo Fornecedor é obrigatório" >
+
+						<f:selectItems value="#{MBProdutos.comboFornecedores}" var="item"
+							itemValue="#{item.codigo}" itemLabel="#{item.descricao}" id="txtFornEdit">
+
+						</f:selectItems>
+					</p:selectOneMenu>
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
 					<p:commandButton value="Editar"
 						actionListener="#{MBProdutos.editar}"
-						oncomplete="PF('dlgProEditar').hide(); PF('tebelaProdutos').clearFilters();"
+						oncomplete="validarCampos(xhr, status, args, 'dlgProEditar', 'tbProdutos');"
 						update=":frmProdutos:tbProdutos :msgGlobal" />
 					<p:commandButton value="Cancelar"
-						oncomplete="PF('dlgProEditar').hide();" />
+						oncomplete="PF('dlgProEditar').hide();" process="@this"/>
 				</h:panelGrid>
 			</h:form>
 
